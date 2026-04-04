@@ -11,15 +11,36 @@
 
 ## 2. Naming Conventions
 
-- **Folders/Files in App Router:** kebab-case (e.g., `customer-profile/page.tsx`). Used for route segments and URL mapping.
-- **Components (Files & Folders):** PascalCase (e.g., `CustomerProfile.tsx`, `AIAssistantPanel.tsx`). Used for React components and UI structure.
-- **Services:** camelCase (e.g., `customerService.ts`, `aiService.ts`). Used for API calls and business logic communication layer.
+- **Folders/Files in App Router:** kebab-case (e.g., `user-profile/page.tsx`). Used for route segments and URL mapping.
+- **Components (Files & Folders):** PascalCase (e.g., `UserProfile.tsx`, `DashboardLayout.tsx`). Used for React components and UI structure.
+- **Services:** camelCase (e.g., `authService.ts`, `userService.ts`). Used for API calls and business logic communication layer.
 - **Constants:** camelCase files (e.g., `userRoles.ts`, `routes.ts`). Used for application-wide constant values.
-- **Config:** camelCase (e.g., `api.ts`, `env.ts`). Used for environment setup and system configuration.
-- **Store:** camelCase (e.g., `authStore.ts`, `customerStore.ts`). Used for global state management (e.g., Zustand, Redux).
+- **Config:** camelCase (e.g., `api.ts`, `env.ts`, `appConfig.ts`). Used for environment setup and system configuration.
+- **Store:** camelCase (e.g., `authStore.ts`, `appStore.ts`). Used for global state management (e.g., Zustand, Redux).
 - **Shared UI Components:** PascalCase (e.g., `Button.tsx`, `Card.tsx`, `Modal.tsx`). Used for reusable low-level UI components.
-- **Hooks:** camelCase + prefix use (e.g., `useCustomerAnalytics.ts`). Used for reusable React stateful logic.
-- **Utils:** camelCase (e.g., `formatDate.ts`). Used for pure helper functions.
+- **Hooks:** camelCase + prefix use (e.g., `useAuth.ts`, `usePagination.ts`). Used for reusable React stateful logic.
+- **Utils:** camelCase (e.g., `formatDate.ts`, `validateEmail.ts`). Used for pure helper functions.
+- **Types / Interfaces:** PascalCase (e.g., `User.ts`, `ApiResponse.ts`). Used for shared TypeScript types and interfaces
+
+**File Responsibility Rule**
+
+Each file should have one main responsibility to keep the codebase modular, maintainable, and easier to scale.
+
+**Example structure**
+
+components/ 
+└── DataTable/ 
+    ├── DataTable.tsx 
+    ├── DataTable.types.ts 
+    ├── DataTable.utils.ts 
+    └── index.ts
+
+**File Responsibilities**
+
+- DataTable.tsx → main UI component
+- DataTable.types.ts → TypeScript types/interfaces
+- DataTable.utils.ts → helper functions related to the component
+- index.ts → Optional barrel file used for cleaner imports
 
 ---
 
@@ -34,7 +55,7 @@ Folders that exist in the current implementation:
 - `/components/providers`: Context providers (e.g., ThemeProvider)
 - `/lib`: HTTP client and utilities (e.g., `api.ts` — axios instance)
 - `/types`: Shared TypeScript definitions (`index.ts`)
-- `/services`: API call layer (e.g., `customerService.ts`, `aiService.ts`)
+- `/services`: API call layer (e.g., `clientService.ts`, `projectService.ts`, `invoiceService.ts`)
 - `/store`: Global state management via Zustand (e.g., `authStore.ts`)
 
 ---
