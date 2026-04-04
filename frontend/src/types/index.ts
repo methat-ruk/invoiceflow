@@ -1,4 +1,16 @@
-// Shared TypeScript types and interfaces
-// Add domain types here as the project grows
+export interface User {
+  id: string
+  email: string
+  name: string
+}
 
-export {}
+export interface AuthResponse {
+  accessToken: string
+  user: User
+}
+
+export interface ApiError {
+  message: string
+  error?: string
+  statusCode?: number
+}

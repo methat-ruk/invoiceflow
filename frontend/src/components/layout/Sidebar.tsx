@@ -30,7 +30,7 @@ const Sidebar = () => {
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 left-0 z-30 flex h-full flex-col bg-violet-50 dark:bg-gray-900',
+        'fixed inset-y-0 left-0 z-30 flex h-full flex-col bg-violet-100 dark:bg-gray-900',
         'border-r border-violet-100 dark:border-gray-800',
         'transition-all duration-300 ease-in-out',
         sidebarOpen
@@ -71,7 +71,7 @@ const Sidebar = () => {
                       'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
                       isActive
                         ? 'bg-violet-600 text-white dark:bg-violet-500'
-                        : 'text-violet-700 hover:bg-violet-100 hover:text-violet-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100'
+                        : 'text-violet-700 hover:bg-violet-200 hover:text-violet-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100'
                     )}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
