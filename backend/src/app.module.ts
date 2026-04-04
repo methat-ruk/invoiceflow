@@ -1,15 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './api/auth/auth.module';
-import { ClientsModule } from './api/clients/clients.module';
-import { ProjectsModule } from './api/projects/projects.module';
-import { InvoicesModule } from './api/invoices/invoices.module';
-import { DashboardModule } from './api/dashboard/dashboard.module';
-import { NotificationsModule } from './api/notifications/notifications.module';
+import { AppController } from './app.controller.js';
+import { AppService } from './app.service.js';
+import { PrismaModule } from './prisma/prisma.module.js';
+import { AuthModule } from './api/auth/auth.module.js';
+import { ClientsModule } from './api/clients/clients.module.js';
+import { ProjectsModule } from './api/projects/projects.module.js';
+import { InvoicesModule } from './api/invoices/invoices.module.js';
+import { DashboardModule } from './api/dashboard/dashboard.module.js';
+import { NotificationsModule } from './api/notifications/notifications.module.js';
 
 @Module({
   imports: [
+    PrismaModule,
     AuthModule,
     ClientsModule,
     ProjectsModule,

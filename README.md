@@ -33,27 +33,3 @@ A full-stack Invoice & Payment Tracking platform for freelancers and SMEs. Built
 
 ## Project Structure
 
-invoiceflow/
-├── backend/
-│   ├── prisma/
-│   │   ├── schema.prisma
-│   │   ├── seed.ts
-│   │   └── migrations/
-│   └── src/
-│       ├── api/
-│       │   ├── auth/
-│       │   ├── clients/
-│       │   ├── projects/
-│       │   ├── invoices/
-│       │   ├── dashboard/
-│       │   └── notifications/
-│       └── main.ts
-└── frontend/
-    └── src/
-        ├── app/(dashboard)/
-        │   ├── clients/
-        │   ├── projects/
-        │   ├── invoices/
-        │   └── dashboard/
-        ├── components/
-        └── services/
