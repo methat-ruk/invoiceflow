@@ -66,7 +66,7 @@ const Sidebar = () => {
                   <Link
                     key={href}
                     href={href}
-                    onClick={closeSidebar}
+                    onClick={() => { if (window.innerWidth < 1024) closeSidebar() }}
                     className={cn(
                       'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
                       isActive
