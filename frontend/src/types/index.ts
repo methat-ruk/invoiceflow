@@ -14,3 +14,14 @@ export interface ApiError {
   error?: string
   statusCode?: number
 }
+
+export interface Client {
+  id: string
+  name: string
+  email: string
+  phone?: string | null
+  address?: string | null
+  userId: string
+  createdAt: string
+  updatedAt: string
+}
