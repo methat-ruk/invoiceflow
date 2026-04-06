@@ -1,0 +1,120 @@
+{
+  "_comment": "Sample data matching prisma/seed.ts — for reference and manual testing",
+  "credentials": {
+    "email": "demo@invoiceflow.dev",
+    "password": "password123"
+  },
+  "clients": [
+    {
+      "name": "Acme Corporation",
+      "email": "contact@acme.example.com",
+      "phone": "0812345678",
+      "address": "123 Sukhumvit Rd, Bangkok 10110"
+    },
+    {
+      "name": "TechWave Co., Ltd.",
+      "email": "billing@techwave.example.com",
+      "phone": "0898765432",
+      "address": "456 Silom Rd, Bangkok 10500"
+    },
+    {
+      "name": "Startup Studio",
+      "email": "hello@startup.example.com",
+      "phone": null,
+      "address": null
+    }
+  ],
+  "projects": [
+    {
+      "name": "Website Redesign",
+      "description": "Full redesign of corporate website with new branding",
+      "client": "Acme Corporation"
+    },
+    {
+      "name": "Mobile App MVP",
+      "description": "iOS and Android app for internal HR management",
+      "client": "TechWave Co., Ltd."
+    },
+    {
+      "name": "Brand Identity",
+      "description": "Logo, color palette, and brand guidelines",
+      "client": "Startup Studio"
+    }
+  ],
+  "invoices": [
+    {
+      "invoiceNumber": "INV-20250301-001",
+      "status": "PAID",
+      "issueDate": "2025-03-01",
+      "dueDate": "2025-03-31",
+      "client": "Acme Corporation",
+      "project": "Website Redesign",
+      "vatRate": 7,
+      "discount": 0,
+      "subtotal": 45000,
+      "vatAmount": 3150,
+      "total": 48150,
+      "notes": null,
+      "items": [
+        { "description": "UI/UX Design", "quantity": 1, "unitPrice": 25000, "total": 25000 },
+        { "description": "Frontend Development", "quantity": 1, "unitPrice": 15000, "total": 15000 },
+        { "description": "QA Testing", "quantity": 5, "unitPrice": 1000, "total": 5000 }
+      ]
+    },
+    {
+      "invoiceNumber": "INV-20250315-001",
+      "status": "SENT",
+      "issueDate": "2025-03-15",
+      "dueDate": "2025-04-15",
+      "client": "TechWave Co., Ltd.",
+      "project": "Mobile App MVP",
+      "vatRate": 7,
+      "discount": 5000,
+      "subtotal": 60000,
+      "vatAmount": 4200,
+      "total": 59200,
+      "notes": "Payment due within 30 days. Bank transfer to SCB account.",
+      "items": [
+        { "description": "Mobile App Development (iOS)", "quantity": 1, "unitPrice": 30000, "total": 30000 },
+        { "description": "Mobile App Development (Android)", "quantity": 1, "unitPrice": 30000, "total": 30000 }
+      ]
+    },
+    {
+      "invoiceNumber": "INV-20250201-001",
+      "status": "OVERDUE",
+      "issueDate": "2025-02-01",
+      "dueDate": "2025-02-28",
+      "client": "Startup Studio",
+      "project": "Brand Identity",
+      "vatRate": 7,
+      "discount": 0,
+      "subtotal": 18000,
+      "vatAmount": 1260,
+      "total": 19260,
+      "notes": null,
+      "items": [
+        { "description": "Logo Design (3 concepts)", "quantity": 1, "unitPrice": 8000, "total": 8000 },
+        { "description": "Brand Guidelines Document", "quantity": 1, "unitPrice": 6000, "total": 6000 },
+        { "description": "Business Card Design", "quantity": 2, "unitPrice": 2000, "total": 4000 }
+      ]
+    },
+    {
+      "invoiceNumber": "INV-20250401-001",
+      "status": "DRAFT",
+      "issueDate": "2025-04-01",
+      "dueDate": "2025-04-30",
+      "client": "Acme Corporation",
+      "project": "Website Redesign",
+      "vatRate": 7,
+      "discount": 0,
+      "subtotal": 12000,
+      "vatAmount": 840,
+      "total": 12840,
+      "notes": "Monthly maintenance retainer — April 2025",
+      "items": [
+        { "description": "Website Maintenance (April)", "quantity": 1, "unitPrice": 8000, "total": 8000 },
+        { "description": "Content Updates", "quantity": 4, "unitPrice": 1000, "total": 4000 }
+      ]
+    }
+  ]
+}

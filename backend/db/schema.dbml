@@ -1,0 +1,90 @@
+// InvoiceFlow — Database Schema
+// Paste into https://dbdiagram.io to visualize
+
+Table users {
+  id        String   [pk, note: 'cuid']
+  email     String   [unique, not null]
+  password  String   [not null, note: 'bcrypt hash']
+  name      String   [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+}
+
+Table clients {
+  id        String   [pk, note: 'cuid']
+  name      String   [not null]
+  email     String   [not null]
+  phone     String   [null]
+  address   String   [null]
+  userId    String   [not null]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+}
+
+Table projects {
+  id          String   [pk, note: 'cuid']
+  name        String   [not null]
+  description String   [null]
+  clientId    String   [not null]
+  userId      String   [not null]
+  createdAt   DateTime [default: `now()`]
+  updatedAt   DateTime
+}
+
+Table invoices {
+  id            String        [pk, note: 'cuid']
+  invoiceNumber String        [unique, not null, note: 'INV-YYYYMMDD-XXX']
+  status        InvoiceStatus [default: 'DRAFT', not null]
+  issueDate     DateTime      [default: `now()`]
+  dueDate       DateTime      [not null]
+  subtotal      Decimal       [not null, note: '(10,2)']
+  vatRate       Decimal       [default: 7, note: '(5,2) — percentage']
+  vatAmount     Decimal       [not null, note: '(10,2) — subtotal × vatRate / 100']
+  discount      Decimal       [default: 0, note: '(10,2) — fixed amount']
+  total         Decimal       [not null, note: '(10,2) — subtotal + vatAmount - discount']
+  notes         String        [null]
+  clientId      String        [not null]
+  projectId     String        [null]
+  userId        String        [not null]
+  createdAt     DateTime      [default: `now()`]
+  updatedAt     DateTime
+}
+
+Table invoice_items {
+  id          String  [pk, note: 'cuid']
+  description String  [not null]
+  quantity    Decimal [not null, note: '(10,2)']
+  unitPrice   Decimal [not null, note: '(10,2)']
+  total       Decimal [not null, note: '(10,2) — quantity × unitPrice']
+  invoiceId   String  [not null]
+}
+
+Enum InvoiceStatus {
+  DRAFT   [note: 'Created but not yet sent to client']
+  SENT    [note: 'Sent to client, awaiting payment']
+  PAID    [note: 'Payment received']
+  OVERDUE [note: 'Past due date, payment not received']
+}
+
+// ── Relationships ────────────────────────────────────────────────────────────
+
+// One user owns many clients (soft-delete cascades)
+Ref: clients.userId > users.id [delete: cascade]
+
+// One user owns many projects
+Ref: projects.userId > users.id [delete: cascade]
+
+// One client has many projects (delete client → delete projects)
+Ref: projects.clientId > clients.id [delete: cascade]
+
+// One user owns many invoices
+Ref: invoices.userId > users.id [delete: cascade]
+
+// One client has many invoices (delete client → delete invoices)
+Ref: invoices.clientId > clients.id [delete: cascade]
+
+// One project optionally linked to many invoices (delete project → set null)
+Ref: invoices.projectId > projects.id [delete: set null]
+
+// One invoice has many line items (delete invoice → delete items)
+Ref: invoice_items.invoiceId > invoices.id [delete: cascade]

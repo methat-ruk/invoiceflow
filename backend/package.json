@@ -18,7 +18,8 @@
     "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
     "test:cov": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
     "test:debug": "node --experimental-vm-modules --inspect-brk node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:seed": "npx prisma db seed"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -67,6 +68,9 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
+  },
+  "prisma": {
+    "seed": "node --experimental-vm-modules --loader ts-node/esm prisma/seed.ts"
   },
   "jest": {
     "moduleFileExtensions": [
