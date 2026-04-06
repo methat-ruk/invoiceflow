@@ -35,7 +35,12 @@ export class ProjectsService {
     if (!client) throw new BadRequestException('Client not found');
 
     return this.prisma.project.create({
-      data: { name: dto.name, description: dto.description, clientId: dto.clientId, userId },
+      data: {
+        name: dto.name,
+        description: dto.description,
+        clientId: dto.clientId,
+        userId,
+      },
       include: { client: { select: { id: true, name: true } } },
     });
   }

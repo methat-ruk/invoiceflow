@@ -38,7 +38,8 @@ export class InvoicesService {
   async create(userId: string, dto: CreateInvoiceDto) {
     await this.validateClient(dto.clientId, userId);
     if (dto.projectId) await this.validateProject(dto.projectId, userId);
-    if (!dto.items?.length) throw new BadRequestException('Invoice must have at least one item');
+    if (!dto.items?.length)
+      throw new BadRequestException('Invoice must have at least one item');
 
     const invoiceNumber = await this.generateInvoiceNumber();
     const { subtotal, vatAmount, total, itemsData } = this.calculateTotals(
@@ -116,12 +117,16 @@ export class InvoicesService {
   // ── Helpers ──────────────────────────────────────────────────────────────
 
   private async validateClient(clientId: string, userId: string) {
-    const client = await this.prisma.client.findFirst({ where: { id: clientId, userId } });
+    const client = await this.prisma.client.findFirst({
+      where: { id: clientId, userId },
+    });
     if (!client) throw new BadRequestException('Client not found');
   }
 
   private async validateProject(projectId: string, userId: string) {
-    const project = await this.prisma.project.findFirst({ where: { id: projectId, userId } });
+    const project = await this.prisma.project.findFirst({
+      where: { id: projectId, userId },
+    });
     if (!project) throw new BadRequestException('Project not found');
   }
 
@@ -134,14 +139,19 @@ export class InvoicesService {
     return `${prefix}-${String(count + 1).padStart(3, '0')}`;
   }
 
-  private calculateTotals(items: CreateInvoiceItemDto[], vatRate: number, discount: number) {
+  private calculateTotals(
+    items: CreateInvoiceItemDto[],
+    vatRate: number,
+    discount: number,
+  ) {
     const itemsData = items.map((item) => ({
       description: item.description,
       quantity: item.quantity,
       unitPrice: item.unitPrice,
       total: Math.round(item.quantity * item.unitPrice * 100) / 100,
     }));
-    const subtotal = Math.round(itemsData.reduce((sum, i) => sum + i.total, 0) * 100) / 100;
+    const subtotal =
+      Math.round(itemsData.reduce((sum, i) => sum + i.total, 0) * 100) / 100;
     const vatAmount = Math.round(subtotal * (vatRate / 100) * 100) / 100;
     const total = Math.round((subtotal + vatAmount - discount) * 100) / 100;
     return { subtotal, vatAmount, total, itemsData };

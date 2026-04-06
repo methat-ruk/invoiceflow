@@ -17,8 +17,18 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
   );
 
-  process.on('SIGTERM', async () => { await app.close(); process.exit(0); });
-  process.on('SIGINT', async () => { await app.close(); process.exit(0); });
+  process.on('SIGTERM', () => {
+    app
+      .close()
+      .then(() => process.exit(0))
+      .catch(() => process.exit(1));
+  });
+  process.on('SIGINT', () => {
+    app
+      .close()
+      .then(() => process.exit(0))
+      .catch(() => process.exit(1));
+  });
 
   await app.listen(process.env['PORT'] ?? 4000);
 }

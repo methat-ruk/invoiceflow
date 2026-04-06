@@ -13,10 +13,7 @@ describe('ClientsService (integration)', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({ isGlobal: true }),
-        PrismaModule,
-      ],
+      imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule],
       providers: [ClientsService],
     }).compile();
 
@@ -24,7 +21,11 @@ describe('ClientsService (integration)', () => {
     prisma = module.get<PrismaService>(PrismaService);
 
     const user = await prisma.user.create({
-      data: { email: 'test-clients@test.com', password: 'hashed', name: 'Test User' },
+      data: {
+        email: 'test-clients@test.com',
+        password: 'hashed',
+        name: 'Test User',
+      },
     });
     testUserId = user.id;
   });
@@ -50,8 +51,14 @@ describe('ClientsService (integration)', () => {
   });
 
   it('findAll — returns only own clients', async () => {
-    await service.create(testUserId, { name: 'Client A', email: 'a@example.com' });
-    await service.create(testUserId, { name: 'Client B', email: 'b@example.com' });
+    await service.create(testUserId, {
+      name: 'Client A',
+      email: 'a@example.com',
+    });
+    await service.create(testUserId, {
+      name: 'Client B',
+      email: 'b@example.com',
+    });
 
     const clients = await service.findAll(testUserId);
     expect(clients).toHaveLength(2);
@@ -59,25 +66,41 @@ describe('ClientsService (integration)', () => {
   });
 
   it('findOne — returns correct client', async () => {
-    const created = await service.create(testUserId, { name: 'Find Me', email: 'find@example.com' });
+    const created = await service.create(testUserId, {
+      name: 'Find Me',
+      email: 'find@example.com',
+    });
     const found = await service.findOne(created.id, testUserId);
     expect(found.id).toBe(created.id);
   });
 
   it('findOne — throws NotFoundException for wrong userId', async () => {
-    const created = await service.create(testUserId, { name: 'Mine', email: 'mine@example.com' });
-    await expect(service.findOne(created.id, 'other-user-id')).rejects.toThrow(NotFoundException);
+    const created = await service.create(testUserId, {
+      name: 'Mine',
+      email: 'mine@example.com',
+    });
+    await expect(service.findOne(created.id, 'other-user-id')).rejects.toThrow(
+      NotFoundException,
+    );
   });
 
   it('update — changes fields', async () => {
-    const created = await service.create(testUserId, { name: 'Old Name', email: 'old@example.com' });
-    const updated = await service.update(created.id, testUserId, { name: 'New Name' });
+    const created = await service.create(testUserId, {
+      name: 'Old Name',
+      email: 'old@example.com',
+    });
+    const updated = await service.update(created.id, testUserId, {
+      name: 'New Name',
+    });
     expect(updated.name).toBe('New Name');
     expect(updated.email).toBe('old@example.com');
   });
 
   it('remove — deletes client from db', async () => {
-    const created = await service.create(testUserId, { name: 'To Delete', email: 'del@example.com' });
+    const created = await service.create(testUserId, {
+      name: 'To Delete',
+      email: 'del@example.com',
+    });
     await service.remove(created.id, testUserId);
     const clients = await service.findAll(testUserId);
     expect(clients.find((c) => c.id === created.id)).toBeUndefined();
