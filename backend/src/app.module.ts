@@ -1,14 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { AuthModule } from './api/auth/auth.module.js';
 import { ClientsModule } from './api/clients/clients.module.js';
 import { ProjectsModule } from './api/projects/projects.module.js';
 import { InvoicesModule } from './api/invoices/invoices.module.js';
 import { DashboardModule } from './api/dashboard/dashboard.module.js';
-import { NotificationsModule } from './api/notifications/notifications.module.js';
 
 @Module({
   imports: [
@@ -19,9 +16,6 @@ import { NotificationsModule } from './api/notifications/notifications.module.js
     ProjectsModule,
     InvoicesModule,
     DashboardModule,
-    NotificationsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

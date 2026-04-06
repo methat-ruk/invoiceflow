@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": false,
     "types": ["jest", "node"]
   },
-  "include": ["src", "prisma", "generated"]
+  "include": ["src", "prisma", "generated", "test"]
 }
