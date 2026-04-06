@@ -1,16 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Pencil, Trash2, X, FileText } from "lucide-react";
+import { Plus, Pencil, Trash2, X, FileText, Download } from "lucide-react";
 import Topbar from "@/components/layout/Topbar";
 import { Button } from "@/components/ui/button";
 import { invoiceService, type InvoicePayload } from "@/services/invoiceService";
 import { clientService } from "@/services/clientService";
 import { projectService } from "@/services/projectService";
 import type { Invoice, Client, Project, InvoiceStatus } from "@/types";
+import { InvoicePDF } from "@/components/pdf/InvoicePDF";
+
+const PDFDownloadLink = dynamic(
+  () => import("@react-pdf/renderer").then((m) => m.PDFDownloadLink),
+  { ssr: false },
+);
 
 // ── Schema ──────────────────────────────────────────────────────────────────
 
@@ -585,6 +592,19 @@ export default function InvoicesPage() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex justify-end gap-1">
+                        <PDFDownloadLink
+                          document={<InvoicePDF invoice={inv} />}
+                          fileName={`${inv.invoiceNumber}.pdf`}
+                        >
+                          {({ loading }) => (
+                            <span
+                              title="Download PDF"
+                              className="flex cursor-pointer items-center justify-center rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                            >
+                              <Download className={`h-3.5 w-3.5 ${loading ? "animate-pulse" : ""}`} />
+                            </span>
+                          )}
+                        </PDFDownloadLink>
                         <button
                           onClick={() => {
                             setEditing(inv);
