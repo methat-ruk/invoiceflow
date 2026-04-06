@@ -22,12 +22,20 @@ describe('ProjectsService (integration)', () => {
     prisma = module.get<PrismaService>(PrismaService);
 
     const user = await prisma.user.create({
-      data: { email: 'test-projects@test.com', password: 'hashed', name: 'Test User' },
+      data: {
+        email: 'test-projects@test.com',
+        password: 'hashed',
+        name: 'Test User',
+      },
     });
     testUserId = user.id;
 
     const client = await prisma.client.create({
-      data: { name: 'Test Client', email: 'client@test.com', userId: testUserId },
+      data: {
+        name: 'Test Client',
+        email: 'client@test.com',
+        userId: testUserId,
+      },
     });
     testClientId = client.id;
   });
@@ -59,8 +67,14 @@ describe('ProjectsService (integration)', () => {
   });
 
   it('findAll — returns only own projects', async () => {
-    await service.create(testUserId, { name: 'Project A', clientId: testClientId });
-    await service.create(testUserId, { name: 'Project B', clientId: testClientId });
+    await service.create(testUserId, {
+      name: 'Project A',
+      clientId: testClientId,
+    });
+    await service.create(testUserId, {
+      name: 'Project B',
+      clientId: testClientId,
+    });
 
     const projects = await service.findAll(testUserId);
     expect(projects).toHaveLength(2);
@@ -68,7 +82,10 @@ describe('ProjectsService (integration)', () => {
   });
 
   it('findAll — filter by clientId', async () => {
-    await service.create(testUserId, { name: 'Project A', clientId: testClientId });
+    await service.create(testUserId, {
+      name: 'Project A',
+      clientId: testClientId,
+    });
 
     const projects = await service.findAll(testUserId, testClientId);
     expect(projects.length).toBeGreaterThan(0);
@@ -76,19 +93,33 @@ describe('ProjectsService (integration)', () => {
   });
 
   it('findOne — throws NotFoundException for wrong userId', async () => {
-    const created = await service.create(testUserId, { name: 'Mine', clientId: testClientId });
-    await expect(service.findOne(created.id, 'other-user-id')).rejects.toThrow(NotFoundException);
+    const created = await service.create(testUserId, {
+      name: 'Mine',
+      clientId: testClientId,
+    });
+    await expect(service.findOne(created.id, 'other-user-id')).rejects.toThrow(
+      NotFoundException,
+    );
   });
 
   it('update — changes fields', async () => {
-    const created = await service.create(testUserId, { name: 'Old Name', clientId: testClientId });
-    const updated = await service.update(created.id, testUserId, { name: 'New Name', description: 'Updated' });
+    const created = await service.create(testUserId, {
+      name: 'Old Name',
+      clientId: testClientId,
+    });
+    const updated = await service.update(created.id, testUserId, {
+      name: 'New Name',
+      description: 'Updated',
+    });
     expect(updated.name).toBe('New Name');
     expect(updated.description).toBe('Updated');
   });
 
   it('remove — deletes project from db', async () => {
-    const created = await service.create(testUserId, { name: 'To Delete', clientId: testClientId });
+    const created = await service.create(testUserId, {
+      name: 'To Delete',
+      clientId: testClientId,
+    });
     await service.remove(created.id, testUserId);
     const projects = await service.findAll(testUserId);
     expect(projects.find((p) => p.id === created.id)).toBeUndefined();

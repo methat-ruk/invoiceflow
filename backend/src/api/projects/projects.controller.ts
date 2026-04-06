@@ -25,7 +25,10 @@ export class ProjectsController {
   constructor(private readonly projects: ProjectsService) {}
 
   @Get()
-  findAll(@Request() req: RequestWithUser, @Query('clientId') clientId?: string) {
+  findAll(
+    @Request() req: RequestWithUser,
+    @Query('clientId') clientId?: string,
+  ) {
     return this.projects.findAll(req.user.id, clientId);
   }
 

@@ -27,12 +27,20 @@ describe('InvoicesService (integration)', () => {
     prisma = module.get<PrismaService>(PrismaService);
 
     const user = await prisma.user.create({
-      data: { email: 'test-invoices@test.com', password: 'hashed', name: 'Test User' },
+      data: {
+        email: 'test-invoices@test.com',
+        password: 'hashed',
+        name: 'Test User',
+      },
     });
     testUserId = user.id;
 
     const client = await prisma.client.create({
-      data: { name: 'Test Client', email: 'client@test.com', userId: testUserId },
+      data: {
+        name: 'Test Client',
+        email: 'client@test.com',
+        userId: testUserId,
+      },
     });
     testClientId = client.id;
   });
@@ -93,8 +101,16 @@ describe('InvoicesService (integration)', () => {
   });
 
   it('findAll — returns own invoices', async () => {
-    await service.create(testUserId, { clientId: testClientId, dueDate: '2026-12-31', items: ITEMS });
-    await service.create(testUserId, { clientId: testClientId, dueDate: '2026-12-31', items: ITEMS });
+    await service.create(testUserId, {
+      clientId: testClientId,
+      dueDate: '2026-12-31',
+      items: ITEMS,
+    });
+    await service.create(testUserId, {
+      clientId: testClientId,
+      dueDate: '2026-12-31',
+      items: ITEMS,
+    });
     const invoices = await service.findAll(testUserId);
     expect(invoices.length).toBeGreaterThanOrEqual(2);
     expect(invoices.every((i) => i.userId === testUserId)).toBe(true);
@@ -106,7 +122,9 @@ describe('InvoicesService (integration)', () => {
       dueDate: '2026-12-31',
       items: ITEMS,
     });
-    const updated = await service.update(created.id, testUserId, { status: 'SENT' });
+    const updated = await service.update(created.id, testUserId, {
+      status: 'SENT',
+    });
     expect(updated.status).toBe('SENT');
   });
 
@@ -117,6 +135,8 @@ describe('InvoicesService (integration)', () => {
       items: ITEMS,
     });
     await service.remove(created.id, testUserId);
-    await expect(service.findOne(created.id, testUserId)).rejects.toThrow(NotFoundException);
+    await expect(service.findOne(created.id, testUserId)).rejects.toThrow(
+      NotFoundException,
+    );
   });
 });
