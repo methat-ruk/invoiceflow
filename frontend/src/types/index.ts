@@ -15,6 +15,17 @@ export interface ApiError {
   statusCode?: number
 }
 
+export interface Project {
+  id: string
+  name: string
+  description?: string | null
+  clientId: string
+  userId: string
+  createdAt: string
+  updatedAt: string
+  client: { id: string; name: string }
+}
+
 export interface Client {
   id: string
   name: string
