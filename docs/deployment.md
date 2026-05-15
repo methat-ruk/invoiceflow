@@ -29,8 +29,7 @@ Set these environment variables:
 DATABASE_URL=postgresql://...
 JWT_SECRET=replace-with-a-long-random-secret
 PORT=4000
-FRONTEND_URL=https://your-frontend.vercel.app
-CORS_ORIGIN=https://invoiceflow-liart.vercel.app,http://localhost:3000
+FRONTEND_URL=https://invoiceflow-liart.vercel.app,https://invoiceflow-3ywn0efhv-methat-rukchart-s-projects.vercel.app,http://localhost:3000
 ```
 
 Recommended Railway service setup:
@@ -38,7 +37,7 @@ Recommended Railway service setup:
 - Root Directory: `/backend`
 - Build Command: leave blank and let Railway use the backend `build` script
 - Start Command: leave blank and let Railway use the backend `start` script
-- Add `CORS_ORIGIN` in Railway Variables so the backend returns `Access-Control-Allow-Origin` for the Vercel frontend
+- Add `FRONTEND_URL` in Railway Variables with both Vercel and localhost origins, matching the CRM backend pattern
 
 Recommended deploy steps:
 
@@ -57,7 +56,7 @@ Notes:
 - Use `npm run db:seed` once when you want demo data in that environment
 - Avoid `npm run db:reset` on shared or production databases because it destroys existing data
 - For this repo, Railway should point to `/backend` so it behaves like a single backend service
-- After updating `CORS_ORIGIN`, redeploy the Railway backend so preflight `OPTIONS` responses include the correct CORS headers
+- After updating `FRONTEND_URL`, redeploy the Railway backend so preflight `OPTIONS` responses include the correct CORS headers
 
 ## Neon
 
