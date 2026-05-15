@@ -64,11 +64,6 @@ async function bootstrap() {
       .catch(() => process.exit(1));
   });
 
-  console.log('[bootstrap] FRONTEND_URL raw:', process.env['FRONTEND_URL']);
-  console.log('[bootstrap] Allowed origins:', allowedOrigins);
-  console.log('[bootstrap] PORT env:', process.env['PORT']);
-  console.log('[bootstrap] Listening on port:', port);
-
   await app.listen(port);
 }
 void bootstrap();
