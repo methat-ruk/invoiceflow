@@ -62,7 +62,7 @@ Health: `http://localhost:4000/api/health`
 
 More detail:
 
-- [docs/deployment.md](/D:/Code/Test/invoiceflow/docs/deployment.md)
-- [docs/testing.md](/D:/Code/Test/invoiceflow/docs/testing.md)
-- [backend/README.md](/D:/Code/Test/invoiceflow/backend/README.md)
-- [frontend/README.md](/D:/Code/Test/invoiceflow/frontend/README.md)
+- [docs/deployment.md](https://github.com/methat-ruk/invoiceflow/blob/release/demo-ready/docs/deployment.md)
+- [docs/testing.md](https://github.com/methat-ruk/invoiceflow/blob/release/demo-ready/docs/testing.md)
+- [backend/README.md](https://github.com/methat-ruk/invoiceflow/blob/release/demo-ready/backend/README.md)
+- [frontend/README.md](https://github.com/methat-ruk/invoiceflow/blob/release/demo-ready/frontend/README.md)
