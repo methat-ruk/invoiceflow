@@ -29,6 +29,7 @@ Set these environment variables:
 DATABASE_URL=postgresql://...
 JWT_SECRET=replace-with-a-long-random-secret
 PORT=4000
+FRONTEND_URL=https://your-frontend.vercel.app
 ```
 
 Recommended deploy steps:
@@ -36,6 +37,7 @@ Recommended deploy steps:
 ```bash
 npm install
 npm run db:reset
+npm run db:seed
 npm run build
 npm run start:prod
 ```

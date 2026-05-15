@@ -21,6 +21,7 @@ npm --prefix frontend install
 Copy-Item backend/.env.example backend/.env
 Copy-Item frontend/.env.example frontend/.env.local
 npm run db:reset
+npm run db:seed
 ```
 
 Run the apps in separate terminals:
@@ -56,12 +57,12 @@ Health: `http://localhost:4000/api/health`
 ## Deployment Shape
 
 - Frontend: Vercel project with `NEXT_PUBLIC_API_URL` pointing to Railway
-- Backend: Railway service with `DATABASE_URL` and `JWT_SECRET`
+- Backend: Railway service with `DATABASE_URL`, `JWT_SECRET`, and `FRONTEND_URL`
 - Database: Neon Postgres database used by Railway and local Prisma
 
 More detail:
 
-- [docs/deployment.md](D:/Code/Test/invoiceflow/docs/deployment.md)
-- [docs/testing.md](D:/Code/Test/invoiceflow/docs/testing.md)
-- [backend/README.md](D:/Code/Test/invoiceflow/backend/README.md)
-- [frontend/README.md](D:/Code/Test/invoiceflow/frontend/README.md)
+- [docs/deployment.md](/D:/Code/Test/invoiceflow/docs/deployment.md)
+- [docs/testing.md](/D:/Code/Test/invoiceflow/docs/testing.md)
+- [backend/README.md](/D:/Code/Test/invoiceflow/backend/README.md)
+- [frontend/README.md](/D:/Code/Test/invoiceflow/frontend/README.md)
