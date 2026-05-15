@@ -19,10 +19,7 @@ async function bootstrap() {
         return;
       }
 
-      const allowedOrigins = new Set([
-        frontendUrl,
-        'http://127.0.0.1:3000',
-      ]);
+      const allowedOrigins = new Set([frontendUrl, 'http://127.0.0.1:3000']);
       const isVercelPreview = /^https:\/\/.*\.vercel\.app$/.test(origin);
 
       if (allowedOrigins.has(origin) || isVercelPreview) {
