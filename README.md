@@ -35,6 +35,21 @@ Frontend: `http://localhost:3000`
 Backend API: `http://localhost:4000/api`
 Health: `http://localhost:4000/api/health`
 
+## Database Scripts
+
+Use these commands from the repo root:
+
+```bash
+npm run db:migrate:deploy
+npm run db:seed
+```
+
+Recommended usage:
+
+- `npm run db:migrate:deploy` applies committed Prisma migrations to the target database
+- `npm run db:seed` loads the demo account and sample data
+- `npm run db:reset` is intended for local rebuilds when you want a clean database
+
 ## Demo Seed
 
 `npm run db:seed` creates a reusable demo account plus sample clients, projects, and invoices.
