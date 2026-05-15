@@ -6,8 +6,10 @@ import { ClientsModule } from './api/clients/clients.module.js';
 import { ProjectsModule } from './api/projects/projects.module.js';
 import { InvoicesModule } from './api/invoices/invoices.module.js';
 import { DashboardModule } from './api/dashboard/dashboard.module.js';
+import { HealthController } from './health.controller.js';
 
 @Module({
+  controllers: [HealthController],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
