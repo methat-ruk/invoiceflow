@@ -15,13 +15,13 @@ Default local URL: `http://localhost:3000`
 ## Environment variables
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:4000
+NEXT_PUBLIC_API_URL=http://localhost:4000/api
 ```
 
 Notes:
 
-- If you provide only the origin, such as `http://localhost:4000`, the app will append `/api` automatically.
-- If you provide the full value, such as `https://your-backend.railway.app/api`, it will also work.
+- Use the full backend API base URL, including `/api`, the same way the CRM project does.
+- Example for Vercel: `NEXT_PUBLIC_API_URL=https://invoiceflow-production-d1d2.up.railway.app/api`
 
 ## Scripts
 

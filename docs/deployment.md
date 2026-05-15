@@ -13,13 +13,13 @@ This repo is set up so the frontend can point directly at the backend origin thr
 Set these environment variables:
 
 ```env
-NEXT_PUBLIC_API_URL=https://your-backend.railway.app
+NEXT_PUBLIC_API_URL=https://your-backend.railway.app/api
 ```
 
 Notes:
 
-- If you enter `https://your-backend.railway.app` the system will automatically append `/api`
-- If you enter `https://your-backend.railway.app/api` it will work as well
+- Use the full backend API base URL, including `/api`, to match the CRM frontend pattern
+- Example: `NEXT_PUBLIC_API_URL=https://invoiceflow-production-d1d2.up.railway.app/api`
 
 ## Backend on Railway
 
