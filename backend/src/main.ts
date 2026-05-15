@@ -24,8 +24,11 @@ async function bootstrap() {
     const isConfiguredOrigin =
       allowedOrigins.includes(origin) || origin === 'http://127.0.0.1:3000';
     const isVercelPreview =
-      origin.startsWith('https://invoiceflow-') &&
-      origin.endsWith('.vercel.app');
+      /^https:\/\/invoiceflow-[a-z0-9-]+-methat-rukchart-s-projects\.vercel\.app$/.test(
+        origin,
+      ) ||
+      (origin.startsWith('https://invoiceflow-') &&
+        origin.endsWith('.vercel.app'));
 
     if (isConfiguredOrigin || isVercelPreview) {
       callback(null, true);
