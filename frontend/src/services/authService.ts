@@ -1,4 +1,4 @@
-import api, { buildApiUrl } from '@/lib/api'
+import api from '@/lib/api'
 import type { AuthResponse } from '@/types'
 
 export interface LoginPayload {
@@ -14,11 +14,11 @@ export interface RegisterPayload {
 
 export const authService = {
   login: (data: LoginPayload) =>
-    api.post<AuthResponse>(buildApiUrl('/auth/login'), data).then((r) => r.data),
+    api.post<AuthResponse>('/auth/login', data).then((r) => r.data),
 
   register: (data: RegisterPayload) =>
-    api.post<AuthResponse>(buildApiUrl('/auth/register'), data).then((r) => r.data),
+    api.post<AuthResponse>('/auth/register', data).then((r) => r.data),
 
   me: () =>
-    api.get<AuthResponse['user']>(buildApiUrl('/auth/me')).then((r) => r.data),
+    api.get<AuthResponse['user']>('/auth/me').then((r) => r.data),
 }
