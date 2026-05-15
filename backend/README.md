@@ -14,6 +14,19 @@ npm run start:dev
 
 API base URL: `http://localhost:4000/api`
 
+## Database Scripts
+
+```bash
+npm run db:migrate:deploy
+npm run db:seed
+```
+
+Recommended usage:
+
+- `npm run db:migrate:deploy` for local, staging, and production databases where you want to apply existing migrations safely
+- `npm run db:seed` for loading the demo account and sample invoice data
+- `npm run db:reset` for local-only rebuilds when you want to wipe and recreate the database quickly
+
 ## Important environment variables
 
 ```env

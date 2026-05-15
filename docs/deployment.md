@@ -36,11 +36,17 @@ Recommended deploy steps:
 
 ```bash
 npm install
-npm run db:reset
+npm run db:migrate:deploy
 npm run db:seed
 npm run build
 npm run start:prod
 ```
+
+Notes:
+
+- Use `npm run db:migrate:deploy` on Railway and any shared environment
+- Use `npm run db:seed` once when you want demo data in that environment
+- Avoid `npm run db:reset` on shared or production databases because it destroys existing data
 
 ## Neon
 
