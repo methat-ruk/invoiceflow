@@ -1,24 +1,46 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import type { CustomOrigin } from '@nestjs/common/interfaces/external/cors-options.interface.js';
 import { AppModule } from './app.module.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const allowedOrigins = Array.from(
-    new Set(
-      (process.env['FRONTEND_URL'] ?? 'http://localhost:3000')
-        .split(',')
-        .map((origin) => origin.trim())
-        .filter(Boolean)
-        .concat('http://127.0.0.1:3000'),
-    ),
-  );
+  const allowedOrigins = (
+    process.env['FRONTEND_URL'] ?? 'http://localhost:3000'
+  )
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+  const port = process.env['PORT'] ?? '4000';
 
   app.setGlobalPrefix('api');
 
+  const corsOrigin: CustomOrigin = (origin, callback) => {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    const isConfiguredOrigin =
+      allowedOrigins.includes(origin) || origin === 'http://127.0.0.1:3000';
+    const isVercelPreview =
+      /^https:\/\/invoiceflow-[a-z0-9-]+-methat-rukchart-s-projects\.vercel\.app$/.test(
+        origin,
+      ) ||
+      (origin.startsWith('https://invoiceflow-') &&
+        origin.endsWith('.vercel.app'));
+
+    if (isConfiguredOrigin || isVercelPreview) {
+      callback(null, true);
+      return;
+    }
+
+    callback(null, false);
+  };
+
   app.enableCors({
-    origin: allowedOrigins,
+    origin: corsOrigin,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -42,6 +64,11 @@ async function bootstrap() {
       .catch(() => process.exit(1));
   });
 
-  await app.listen(process.env['PORT'] ?? 4000);
+  console.log('[bootstrap] FRONTEND_URL raw:', process.env['FRONTEND_URL']);
+  console.log('[bootstrap] Allowed origins:', allowedOrigins);
+  console.log('[bootstrap] PORT env:', process.env['PORT']);
+  console.log('[bootstrap] Listening on port:', port);
+
+  await app.listen(port);
 }
 void bootstrap();
