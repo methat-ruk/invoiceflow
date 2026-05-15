@@ -39,6 +39,7 @@ FRONTEND_URL=http://localhost:3000
 ## Scripts
 
 - `npm run build`
+- `npm run start`
 - `npm run start:dev`
 - `npm run start:prod`
 - `npm run db:reset`
@@ -47,3 +48,13 @@ FRONTEND_URL=http://localhost:3000
 - `npm run test:unit`
 - `npm run test:integration`
 - `npm run test:e2e`
+
+## Railway
+
+Recommended Railway backend setup:
+
+- Root Directory: `/backend`
+- Use the default detected `build` script
+- Use the default detected `start` script
+
+`npm run start` and `npm run start:prod` both run Prisma migrations before starting the built server, matching the Railway pattern used in `crm-ai-loyalty`.
