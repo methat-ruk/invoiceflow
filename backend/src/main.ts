@@ -6,26 +6,12 @@ import { AppModule } from './app.module.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const allowedOrigins = new Set(
-    (
-      process.env['CORS_ORIGIN'] ??
-      process.env['FRONTEND_URL'] ??
-      'http://localhost:3000'
-    )
-      .split(',')
-      .map((origin) => origin.trim())
-      .filter(Boolean),
-  );
-
-  allowedOrigins.add('http://127.0.0.1:3000');
-  allowedOrigins.add('https://invoiceflow-liart.vercel.app');
-  allowedOrigins.add(
-    'https://invoiceflow-3ywn0efhv-methat-rukchart-s-projects.vercel.app',
-  );
-
-  const allowedOriginPatterns = [
-    /^https:\/\/invoiceflow-[a-z0-9-]+-methat-rukchart-s-projects\.vercel\.app$/,
-  ];
+  const allowedOrigins = (
+    process.env['FRONTEND_URL'] ?? 'http://localhost:3000'
+  )
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
 
   app.setGlobalPrefix('api');
 
@@ -35,11 +21,13 @@ async function bootstrap() {
       return;
     }
 
-    const isAllowed =
-      allowedOrigins.has(origin) ||
-      allowedOriginPatterns.some((pattern) => pattern.test(origin));
+    const isConfiguredOrigin =
+      allowedOrigins.includes(origin) || origin === 'http://127.0.0.1:3000';
+    const isVercelPreview =
+      origin.startsWith('https://invoiceflow-') &&
+      origin.endsWith('.vercel.app');
 
-    if (isAllowed) {
+    if (isConfiguredOrigin || isVercelPreview) {
       callback(null, true);
       return;
     }
@@ -53,7 +41,6 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     optionsSuccessStatus: 204,
-    preflightContinue: false,
   });
 
   app.useGlobalPipes(
