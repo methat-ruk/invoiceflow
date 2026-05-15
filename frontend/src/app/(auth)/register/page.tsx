@@ -1,5 +1,6 @@
 'use client'
 
+import type React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -50,8 +51,7 @@ export default function RegisterPage() {
 
   const submit = handleSubmit(onSubmit)
 
-  const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Enter') return
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     void submit()
   }
@@ -70,7 +70,7 @@ export default function RegisterPage() {
         </p>
       </div>
 
-      <div role="form" aria-label="Create account form" className="space-y-4">
+      <form onSubmit={handleFormSubmit} noValidate className="space-y-4">
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
             Full name
@@ -79,7 +79,6 @@ export default function RegisterPage() {
             {...register('name')}
             type="text"
             autoComplete="name"
-            onKeyDown={handleEnter}
             className="h-9 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-900 placeholder-gray-400 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 aria-invalid:border-red-500"
             aria-invalid={!!errors.name}
           />
@@ -96,7 +95,6 @@ export default function RegisterPage() {
             {...register('email')}
             type="email"
             autoComplete="email"
-            onKeyDown={handleEnter}
             className="h-9 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-900 placeholder-gray-400 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 aria-invalid:border-red-500"
             aria-invalid={!!errors.email}
           />
@@ -113,7 +111,6 @@ export default function RegisterPage() {
             {...register('password')}
             type="password"
             autoComplete="new-password"
-            onKeyDown={handleEnter}
             className="h-9 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-900 placeholder-gray-400 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 aria-invalid:border-red-500"
             aria-invalid={!!errors.password}
           />
@@ -130,7 +127,6 @@ export default function RegisterPage() {
             {...register('confirmPassword')}
             type="password"
             autoComplete="new-password"
-            onKeyDown={handleEnter}
             className="h-9 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-900 placeholder-gray-400 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 aria-invalid:border-red-500"
             aria-invalid={!!errors.confirmPassword}
           />
@@ -148,15 +144,14 @@ export default function RegisterPage() {
         )}
 
         <Button
-          type="button"
-          onClick={() => void submit()}
+          type="submit"
           size="lg"
           disabled={isSubmitting}
           className="w-full bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600"
         >
           {isSubmitting ? 'Creating account...' : 'Create account'}
         </Button>
-      </div>
+      </form>
 
       <p className="mt-6 text-center text-sm text-gray-500">
         Already have an account?{' '}

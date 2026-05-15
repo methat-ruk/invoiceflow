@@ -5,6 +5,10 @@ const PUBLIC_PATHS = ['/login', '/register']
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  if (pathname.startsWith('/api')) {
+    return NextResponse.next()
+  }
+
   const isPublic = PUBLIC_PATHS.some((p) => pathname.startsWith(p))
   if (isPublic) return NextResponse.next()
 
