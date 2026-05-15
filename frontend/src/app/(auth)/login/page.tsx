@@ -39,6 +39,8 @@ export default function LoginPage() {
     }
   }
 
+  const submit = handleSubmit(onSubmit)
+
   return (
     <div className="w-full max-w-md rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
       {/* Header */}
@@ -54,7 +56,14 @@ export default function LoginPage() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault()
+          void submit(event)
+        }}
+        noValidate
+        className="space-y-4"
+      >
         {/* Email */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">

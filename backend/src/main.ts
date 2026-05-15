@@ -1,34 +1,42 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import type { CustomOrigin } from '@nestjs/common/interfaces/external/cors-options.interface.js';
 import { AppModule } from './app.module.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const frontendUrl = process.env['FRONTEND_URL'] ?? 'http://localhost:3000';
+  const allowedOrigins = (
+    process.env['FRONTEND_URL'] ?? 'http://localhost:3000'
+  )
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
 
   app.setGlobalPrefix('api');
 
+  const corsOrigin: CustomOrigin = (origin, callback) => {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    const isConfiguredOrigin =
+      allowedOrigins.includes(origin) || origin === 'http://127.0.0.1:3000';
+    const isVercelPreview =
+      origin.startsWith('https://invoiceflow-') &&
+      origin.endsWith('.vercel.app');
+
+    if (isConfiguredOrigin || isVercelPreview) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`CORS blocked for origin: ${origin}`));
+  };
+
   app.enableCors({
-    origin: (
-      origin: string | undefined,
-      callback: (error: Error | null, allow?: boolean) => void,
-    ) => {
-      if (!origin) {
-        callback(null, true);
-        return;
-      }
-
-      const allowedOrigins = new Set([frontendUrl, 'http://127.0.0.1:3000']);
-      const isVercelPreview = /^https:\/\/.*\.vercel\.app$/.test(origin);
-
-      if (allowedOrigins.has(origin) || isVercelPreview) {
-        callback(null, true);
-        return;
-      }
-
-      callback(new Error(`Origin ${origin} is not allowed by CORS`));
-    },
+    origin: corsOrigin,
     credentials: true,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
