@@ -7,7 +7,9 @@ import { AppModule } from './app.module.js';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const allowedOrigins = (
-    process.env['FRONTEND_URL'] ?? 'http://localhost:3000'
+    process.env['CORS_ORIGIN'] ??
+    process.env['FRONTEND_URL'] ??
+    'http://localhost:3000'
   )
     .split(',')
     .map((origin) => origin.trim())
@@ -21,13 +23,7 @@ async function bootstrap() {
       return;
     }
 
-    const isConfiguredOrigin =
-      allowedOrigins.includes(origin) || origin === 'http://127.0.0.1:3000';
-    const isVercelPreview =
-      origin.startsWith('https://invoiceflow-') &&
-      origin.endsWith('.vercel.app');
-
-    if (isConfiguredOrigin || isVercelPreview) {
+    if (allowedOrigins.includes(origin) || origin === 'http://127.0.0.1:3000') {
       callback(null, true);
       return;
     }
@@ -38,8 +34,9 @@ async function bootstrap() {
   app.enableCors({
     origin: corsOrigin,
     credentials: true,
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 204,
   });
 
   app.useGlobalPipes(
