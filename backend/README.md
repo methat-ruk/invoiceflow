@@ -8,6 +8,7 @@ NestJS API for InvoiceFlow.
 Copy-Item .env.example .env
 npm install
 npm run db:reset
+npm run db:seed
 npm run start:dev
 ```
 
@@ -19,6 +20,7 @@ API base URL: `http://localhost:4000/api`
 DATABASE_URL=postgresql://...
 JWT_SECRET=replace-me
 PORT=4000
+FRONTEND_URL=http://localhost:3000
 ```
 
 ## Scripts

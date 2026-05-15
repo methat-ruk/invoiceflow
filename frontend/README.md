@@ -20,8 +20,8 @@ NEXT_PUBLIC_API_URL=http://localhost:4000
 
 Notes:
 
-- ถ้าใส่แค่ origin เช่น `http://localhost:4000` ระบบจะเติม `/api` ให้เอง
-- ถ้าใส่เต็มเป็น `https://your-backend.railway.app/api` ก็ใช้ได้เหมือนกัน
+- If you provide only the origin, such as `http://localhost:4000`, the app will append `/api` automatically.
+- If you provide the full value, such as `https://your-backend.railway.app/api`, it will also work.
 
 ## Scripts
 
