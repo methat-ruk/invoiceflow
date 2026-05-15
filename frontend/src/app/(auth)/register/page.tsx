@@ -35,7 +35,9 @@ export default function RegisterPage() {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ resolver: zodResolver(schema) })
 
-  const onSubmit = async ({ confirmPassword: _, ...data }: FormValues) => {
+  const onSubmit = async (form: FormValues) => {
+    const { confirmPassword, ...data } = form
+    void confirmPassword
     setServerError('')
     try {
       const res = await authService.register(data)

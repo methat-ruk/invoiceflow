@@ -5,6 +5,11 @@ import { AppModule } from './../src/app.module.js';
 import { PrismaService } from './../src/prisma/prisma.service.js';
 
 const E2E_EMAILS = ['e2e@test.com', 'e2e-login@test.com'];
+interface HealthResponse {
+  status: string;
+  service: string;
+  timestamp: string;
+}
 
 describe('App (e2e)', () => {
   let app: INestApplication;
@@ -66,5 +71,16 @@ describe('App (e2e)', () => {
   it('GET /api/dashboard/stats — requires auth, returns 401 without token', async () => {
     const res = await request(server).get('/api/dashboard/stats');
     expect(res.status).toBe(401);
+  });
+  it('GET /api/health â€” returns service health', async () => {
+    const res = await request(server).get('/api/health');
+    const body = res.body as HealthResponse;
+
+    expect(res.status).toBe(200);
+    expect(body).toMatchObject({
+      status: 'ok',
+      service: 'invoiceflow-backend',
+    });
+    expect(typeof body.timestamp).toBe('string');
   });
 });
