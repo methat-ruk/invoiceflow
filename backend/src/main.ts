@@ -6,14 +6,26 @@ import { AppModule } from './app.module.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const allowedOrigins = (
-    process.env['CORS_ORIGIN'] ??
-    process.env['FRONTEND_URL'] ??
-    'http://localhost:3000'
-  )
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean);
+  const allowedOrigins = new Set(
+    (
+      process.env['CORS_ORIGIN'] ??
+      process.env['FRONTEND_URL'] ??
+      'http://localhost:3000'
+    )
+      .split(',')
+      .map((origin) => origin.trim())
+      .filter(Boolean),
+  );
+
+  allowedOrigins.add('http://127.0.0.1:3000');
+  allowedOrigins.add('https://invoiceflow-liart.vercel.app');
+  allowedOrigins.add(
+    'https://invoiceflow-3ywn0efhv-methat-rukchart-s-projects.vercel.app',
+  );
+
+  const allowedOriginPatterns = [
+    /^https:\/\/invoiceflow-[a-z0-9-]+-methat-rukchart-s-projects\.vercel\.app$/,
+  ];
 
   app.setGlobalPrefix('api');
 
@@ -23,12 +35,16 @@ async function bootstrap() {
       return;
     }
 
-    if (allowedOrigins.includes(origin) || origin === 'http://127.0.0.1:3000') {
+    const isAllowed =
+      allowedOrigins.has(origin) ||
+      allowedOriginPatterns.some((pattern) => pattern.test(origin));
+
+    if (isAllowed) {
       callback(null, true);
       return;
     }
 
-    callback(new Error(`CORS blocked for origin: ${origin}`));
+    callback(null, false);
   };
 
   app.enableCors({
@@ -37,6 +53,7 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     optionsSuccessStatus: 204,
+    preflightContinue: false,
   });
 
   app.useGlobalPipes(
